@@ -1,0 +1,38 @@
+function main() {
+const apiKey = ""; //enter your ScrapingAnt Api key here
+const urls =["https://api.scrapingant.com/v1/general?url=https%3A%2F%2Fbaltimorejewishlife.com%2Fminyanim%2Fshacharis.php%3FminyanType%3DSH&return_text=true", "https://api.scrapingant.com/v1/general?url=https%3A%2F%2Fbaltimorejewishlife.com%2Fminyanim%2Fshacharis.php%3FminyanType%3DMI&return_text=true", "https://api.scrapingant.com/v1/general?url=https%3A%2F%2Fbaltimorejewishlife.com%2Fminyanim%2Fshacharis.php%3FminyanType%3DMM&return_text=true", "https://api.scrapingant.com/v1/general?url=https%3A%2F%2Fbaltimorejewishlife.com%2Fminyanim%2Fshacharis.php%3FminyanType%3DMA&return_text=true"];
+const tefilla = ["Shachris", "Mincha", "Mincha - Maariv", "Maariv"];
+for (var i = 3; i > -1; i--) { //Sent in reverse order so will appear in order in inbox
+    emailTimes(getTimes(urls[i], apiKey), tefilla[i]);
+    console.log(`Sent ${tefilla[i]}`);
+    Utilities.sleep(3000); //sleeping to help avoid bot detection
+  }
+}
+
+function getTimes(url, apiKey) {
+  var headers = {"headers":{'x-api-key': apiKey}};
+  var response;
+  var gotten = false;
+  while (!gotten) {
+  try {
+   response = UrlFetchApp.fetch(url, headers);
+   gotten = true;
+  }
+  catch(err) {
+    console.log("Error, trying again...");
+    Utilities.sleep(3000);
+  }
+  }
+  response = response.getContentText().replace(/(?:\\[rn])+/g, "\r");
+  var begIndex = response.indexOf("SHULS/MINYANIM");
+  var endIndex = response.indexOf("\",\"cookies\":\"");
+  response = response.substring(begIndex + 15, endIndex);
+  console.log(response);
+  return response;
+}
+
+function emailTimes(text, tefilla) {
+  MailApp.sendEmail(Session.getActiveUser().getEmail(), "Zmanim: " + tefilla, text, {
+      name: 'Baltimore Minyanim'
+  });
+}
