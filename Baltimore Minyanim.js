@@ -1,4 +1,5 @@
 function main() {
+removeOldEmails();
 const apiToken = ""; //enter your ScrapingAnt Api key here
 const urls =["https://api.scrapingant.com/v1/general?url=https%3A%2F%2Fbaltimorejewishlife.com%2Fminyanim%2Fshacharis.php%3FminyanType%3DSH&return_text=true", "https://api.scrapingant.com/v1/general?url=https%3A%2F%2Fbaltimorejewishlife.com%2Fminyanim%2Fshacharis.php%3FminyanType%3DMI&return_text=true", "https://api.scrapingant.com/v1/general?url=https%3A%2F%2Fbaltimorejewishlife.com%2Fminyanim%2Fshacharis.php%3FminyanType%3DMM&return_text=true", "https://api.scrapingant.com/v1/general?url=https%3A%2F%2Fbaltimorejewishlife.com%2Fminyanim%2Fshacharis.php%3FminyanType%3DMA&return_text=true"];
 const tefilla = ["Shachris", "Mincha", "Mincha - Maariv", "Maariv"];
@@ -7,6 +8,18 @@ for (var i = 3; i > -1; i--) { //Sent in reverse order so will appear in order i
     console.log(`Sent ${tefilla[i]}`);
     Utilities.sleep(3000); //sleeping to help avoid bot detection
   }
+}
+
+function removeOldEmails() {
+var zmanim = GmailApp.getUserLabelByName("Zmanim");
+var oldThreads = zmanim.getThreads();
+var oldThread;
+console.log("removing " + oldThreads.length + " emails...")
+for (var i = 0; i < oldThreads.length; i++) {
+    oldThread = oldThreads[i];
+    Gmail.Users.Messages.remove("slot700@gmail.com", oldThread.getId());
+  }
+  console.log("Finished removing old emails!");
 }
 
 function getTimes(url, apiToken) {
