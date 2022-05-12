@@ -16,7 +16,7 @@ var oldThreads = zmanim.getThreads();
 var oldThread;
 console.log("removing " + oldThreads.length + " emails...")
 for (var i = 0; i < oldThreads.length; i++) {
-    oldThreads[i].MoveToTrash();
+    oldThreads[i].moveToTrash();
   }
   console.log("Finished removing old emails!");
 }
