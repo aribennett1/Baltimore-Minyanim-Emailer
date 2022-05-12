@@ -16,8 +16,7 @@ var oldThreads = zmanim.getThreads();
 var oldThread;
 console.log("removing " + oldThreads.length + " emails...")
 for (var i = 0; i < oldThreads.length; i++) {
-    oldThread = oldThreads[i];
-    Gmail.Users.Messages.remove("slot700@gmail.com", oldThread.getId());
+    oldThreads[i].MoveToTrash();
   }
   console.log("Finished removing old emails!");
 }
