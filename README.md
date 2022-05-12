@@ -5,4 +5,4 @@ You will need to create your own Scarping Ant account to get an API Token. You c
 
 Once you sign up, copy your API token and paste it in the quotes of the first line of the code.
 
-Set a trigger for every day after 12:00 a.m, and remember to enable the Gmail API service (Click the + on the services tab on the left side and choose Gmail) and you're all set!
+Set a trigger for every day after 12:00 a.m and you're all set!
